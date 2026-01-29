@@ -1,0 +1,80 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* CSS Variables - Warna dan ukuran yang digunakan di seluruh website */
+:root {
+  --primary-color: #6366f1; /* Biru ungu utama */
+  --primary-dark: #4f46e5; /* Biru ungu gelap */
+  --secondary-color: #8b5cf6; /* Ungu */
+  --accent-color: #a78bfa; /* Ungu muda */
+
+  /* Warna Teks */
+  --text-dark: #1e293b; /* Teks gelap */
+  --text-light: #64748b; /* Teks abu-abu */
+
+  /* Warna Background */
+  --bg-light: #f8fafc; /* Background terang */
+  --bg-white: #ffffff; /* Putih */
+
+  /* Warna Status */
+  --success: #10b981; /* Hijau untuk jawaban benar */
+  --error: #ef4444; /* Merah untuk jawaban salah */
+
+  /* Border */
+  --border-color: #e2e8f0; /* Warna border/garis */
+}
+
+/* Body - Pengaturan dasar untuk seluruh halaman */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: var(--text-dark);
+}
+
+/* Container - Pembungkus konten utama */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Animasi Fade In - Untuk transisi halus saat elemen muncul */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animasi Bounce - Untuk efek meloncat */
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Responsive Design - Untuk layar tablet dan lebih kecil */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
+/* Responsive Design - Untuk layar mobile */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+  }
+}

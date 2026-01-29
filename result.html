@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cerdas Cermat - Hasil Quiz</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/pages.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="result-container">
+        <div class="result-icon" id="resultIcon">🎉</div>
+        <h2 id="resultTitle">Selamat!</h2>
+
+        <div class="score-display">
+          <div class="score-circle">
+            <span id="scoreValue">0</span>
+            <span class="score-label">/100</span>
+          </div>
+        </div>
+
+        <div class="result-details">
+          <div class="detail-item">
+            <span class="detail-label">Total Soal</span>
+            <span class="detail-value" id="totalQuestions">0</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Benar</span>
+            <span class="detail-value correct" id="correctAnswers">0</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Salah</span>
+            <span class="detail-value wrong" id="wrongAnswers">0</span>
+          </div>
+        </div>
+
+        <div class="result-message" id="resultMessage">
+          Terus belajar dan tingkatkan nilaimu!
+        </div>
+
+        <div class="result-actions">
+          <button class="btn-secondary" onclick="retryQuiz()">
+            🔄 Coba Lagi
+          </button>
+          <button class="btn-primary" onclick="backToCategories()">
+            📚 Pilih Kategori Lain
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/data.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+      // Fungsi untuk kembali ke kategori
+      function backToCategories() {
+        window.location.href = "categories.html";
+      }
+
+      // Fungsi untuk mencoba quiz lagi
+      function retryQuiz() {
+        window.location.href = "quiz.html";
+      }
+
+      // Tampilkan hasil saat halaman dimuat
+      window.addEventListener("DOMContentLoaded", function () {
+        const resultData = JSON.parse(localStorage.getItem("lastQuizResult"));
+
+        if (!resultData) {
+          alert("Tidak ada hasil quiz!");
+          window.location.href = "index.html";
+          return;
+        }
+
+        const score = resultData.score;
+        const totalQuestions = resultData.totalQuestions;
+        const correctAnswers = score / 10; // Karena setiap jawaban benar = 10 poin
+        const wrongAnswers = totalQuestions - correctAnswers;
+
+        // Update nilai
+        document.getElementById("scoreValue").textContent = score;
+        document.getElementById("totalQuestions").textContent = totalQuestions;
+        document.getElementById("correctAnswers").textContent = correctAnswers;
+        document.getElementById("wrongAnswers").textContent = wrongAnswers;
+
+        // Update pesan berdasarkan score
+        let message = "";
+        let icon = "";
+        let title = "";
+
+        if (score >= 90) {
+          icon = "🏆";
+          title = "Luar Biasa!";
+          message =
+            "Nilai sempurna! Kamu sangat menguasai materi ini. Pertahankan prestasimu!";
+        } else if (score >= 70) {
+          icon = "🎉";
+          title = "Bagus Sekali!";
+          message =
+            "Hasil yang bagus! Kamu sudah memahami sebagian besar materi. Terus tingkatkan!";
+        } else if (score >= 50) {
+          icon = "👍";
+          title = "Cukup Baik!";
+          message =
+            "Tidak buruk! Masih ada ruang untuk berkembang. Yuk belajar lebih giat lagi!";
+        } else {
+          icon = "💪";
+          title = "Jangan Menyerah!";
+          message =
+            "Jangan berkecil hati! Terus berlatih dan belajar, pasti akan lebih baik!";
+        }
+
+        document.getElementById("resultIcon").textContent = icon;
+        document.getElementById("resultTitle").textContent = title;
+        document.getElementById("resultMessage").textContent = message;
+      });
+    </script>
+  </body>
+</html>

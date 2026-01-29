@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cerdas Cermat - Quiz</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/pages.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="quiz-header">
+        <button class="btn-back" onclick="exitQuiz()">⬅ Keluar</button>
+        <div class="quiz-info">
+          <h3 id="categoryName">Kategori</h3>
+          <span class="progress-info">
+            <span id="currentQuestion">1</span>/<span id="totalQuestions"
+              >10</span
+            >
+          </span>
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar"></div>
+      </div>
+
+      <div class="question-container">
+        <h2 class="question-text" id="questionText">
+          Soal akan muncul di sini
+        </h2>
+
+        <div class="options-container" id="optionsContainer">
+          <!-- Opsi jawaban akan dimuat dari JavaScript -->
+        </div>
+
+        <button class="btn-next" id="nextBtn" onclick="nextQuestion()" disabled>
+          Lanjut
+        </button>
+      </div>
+    </div>
+
+    <script src="/js/data.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+      let currentCategory = "";
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let selectedAnswer = null;
+      let questions = [];
+
+      // Fungsi untuk keluar dari quiz
+      function exitQuiz() {
+        if (confirm("Yakin ingin keluar? Progres akan hilang.")) {
+          window.location.href = "categories.html";
+        }
+      }
+
+      // Inisialisasi quiz saat halaman dimuat
+      window.addEventListener("DOMContentLoaded", function () {
+        currentCategory = localStorage.getItem("selectedCategory");
+
+        if (!currentCategory || !quizData[currentCategory]) {
+          alert("Kategori tidak valid!");
+          window.location.href = "categories.html";
+          return;
+        }
+
+        // Ambil soal dari kategori yang dipilih
+        questions = quizData[currentCategory];
+
+        // Update nama kategori
+        const categoryNames = {
+          matematika: "Matematika",
+          ipa: "IPA",
+          ips: "IPS",
+          bahasa_indonesia: "Bahasa Indonesia",
+          bahasa_inggris: "Bahasa Inggris",
+          pkn: "PKn",
+        };
+        document.getElementById("categoryName").textContent =
+          categoryNames[currentCategory];
+        document.getElementById("totalQuestions").textContent =
+          questions.length;
+
+        // Tampilkan soal pertama
+        showQuestion();
+      });
+
+      // Fungsi untuk menampilkan soal
+      function showQuestion() {
+        const question = questions[currentQuestionIndex];
+
+        // Update nomor soal dan progress bar
+        document.getElementById("currentQuestion").textContent =
+          currentQuestionIndex + 1;
+        const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById("progressBar").style.width = progress + "%";
+
+        // Tampilkan soal
+        document.getElementById("questionText").textContent = question.question;
+
+        // Tampilkan opsi jawaban
+        const optionsContainer = document.getElementById("optionsContainer");
+        optionsContainer.innerHTML = "";
+
+        question.options.forEach((option, index) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = option;
+          btn.onclick = () => selectAnswer(index);
+          optionsContainer.appendChild(btn);
+        });
+
+        // Reset state
+        selectedAnswer = null;
+        document.getElementById("nextBtn").disabled = true;
+      }
+
+      // Fungsi untuk memilih jawaban
+      function selectAnswer(index) {
+        const question = questions[currentQuestionIndex];
+        const optionBtns = document.querySelectorAll(".option-btn");
+
+        // Tandai semua tombol sebagai disabled
+        optionBtns.forEach((btn) => (btn.disabled = true));
+
+        // Simpan jawaban yang dipilih
+        selectedAnswer = index;
+
+        // Tandai jawaban yang dipilih
+        optionBtns[index].classList.add("selected");
+
+        // Cek apakah jawaban benar
+        if (index === question.correct) {
+          optionBtns[index].classList.add("correct");
+          score += 10; // Tambah 10 poin untuk jawaban benar
+        } else {
+          optionBtns[index].classList.add("wrong");
+          optionBtns[question.correct].classList.add("correct");
+        }
+
+        // Aktifkan tombol next
+        document.getElementById("nextBtn").disabled = false;
+      }
+
+      // Fungsi untuk ke soal berikutnya
+      function nextQuestion() {
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length) {
+          // Masih ada soal
+          showQuestion();
+        } else {
+          // Quiz selesai
+          finishQuiz();
+        }
+      }
+
+      // Fungsi untuk menyelesaikan quiz
+      function finishQuiz() {
+        // Simpan hasil ke localStorage
+        const result = {
+          category: currentCategory,
+          score: score,
+          totalQuestions: questions.length,
+          date: new Date().toISOString(),
+        };
+
+        // Ambil hasil sebelumnya
+        let results = JSON.parse(localStorage.getItem("quizResults") || "[]");
+        results.push(result);
+        localStorage.setItem("quizResults", JSON.stringify(results));
+
+        // Simpan score untuk ditampilkan di halaman result
+        localStorage.setItem("lastQuizResult", JSON.stringify(result));
+
+        // Pindah ke halaman result
+        window.location.href = "result.html";
+      }
+    </script>
+  </body>
+</html>

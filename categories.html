@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cerdas Cermat - Pilih Kategori</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/pages.css" />
+  </head>
+  <body>
+    <div class="container">
+      <button class="btn-back" onclick="goToHome()">⬅ Kembali</button>
+
+      <div class="categories-header">
+        <h2>Pilih Kategori Quiz</h2>
+        <p>Pilih mata pelajaran yang ingin kamu pelajari</p>
+      </div>
+
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- Kategori akan dimuat dari JavaScript -->
+      </div>
+    </div>
+
+    <script src="/js/data.js"></script>
+    <script src="/js/script.js"></script>
+    <script>
+      function goToHome() {
+        window.location.href = "index.html";
+      }
+
+      function startQuizFromCategory(category) {
+        localStorage.setItem("selectedCategory", category);
+        window.location.href = "quiz.html";
+      }
+
+      window.addEventListener("DOMContentLoaded", function () {
+        loadCategories();
+      });
+
+      function loadCategories() {
+        const categoriesGrid = document.getElementById("categoriesGrid");
+
+        const categories = [
+          {
+            id: "matematika",
+            name: "Matematika",
+            icon: "🔢",
+            description: "10 Soal",
+          },
+          { id: "ipa", name: "IPA", icon: "🔬", description: "10 Soal" },
+          { id: "ips", name: "IPS", icon: "🌍", description: "10 Soal" },
+          {
+            id: "bahasa_indonesia",
+            name: "Bahasa Indonesia",
+            icon: "📚",
+            description: "10 Soal",
+          },
+          {
+            id: "bahasa_inggris",
+            name: "Bahasa Inggris",
+            icon: "🇬🇧",
+            description: "10 Soal",
+          },
+          { id: "pkn", name: "PKn", icon: "🏛️", description: "10 Soal" },
+        ];
+
+        categories.forEach((cat) => {
+          const bestScore = getBestScore(cat.id);
+
+          const card = document.createElement("div");
+          card.className = "category-card";
+          card.onclick = () => startQuizFromCategory(cat.id);
+
+          card.innerHTML = `
+                    <div class="category-icon">${cat.icon}</div>
+                    <h3>${cat.name}</h3>
+                    <p>${cat.description}</p>
+                    <div class="category-info">
+                        <span class="best-score">Nilai Terbaik: ${bestScore}</span>
+                    </div>
+                `;
+
+          categoriesGrid.appendChild(card);
+        });
+      }
+    </script>
+  </body>
+</html>
