@@ -1,58 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cerdas Cermat - Beranda</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/components.css">
-    <link rel="stylesheet" href="/css/pages.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+  </head>
+  <body>
     <div class="container">
-        <div class="hero-section">
-            <div class="hero-content">
-                <h1 class="main-title">🎓 Cerdas Cermat</h1>
-                <p class="subtitle">Uji Pengetahuanmu!</p>
-                <p class="description">
-                    Platform quiz interaktif untuk siswa SMP. Pilih kategori dan jawab 10 soal pilihan ganda untuk mengasah kemampuanmu!
-                </p>
-                
-                <button class="btn-primary" onclick="goToCategories()">
-                    Mulai Quiz
-                </button>
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1 class="main-title">🎓 Cerdas Cermat</h1>
+          <p class="subtitle">Uji Pengetahuanmu!</p>
+          <p class="description">
+            Platform quiz interaktif untuk siswa SMP. Pilih kategori dan jawab
+            10 soal pilihan ganda untuk mengasah kemampuanmu!
+          </p>
 
-                <!-- Statistics -->
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <h3 id="totalQuizzes">0</h3>
-                        <p>Total Quiz Dikerjakan</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3 id="averageScore">0</h3>
-                        <p>Rata-rata Nilai</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3 id="bestScore">0</h3>
-                        <p>Nilai Terbaik</p>
-                    </div>
-                </div>
+          <button class="btn-primary" onclick="goToCategories()">
+            Mulai Quiz
+          </button>
+
+          <!-- Statistics -->
+          <div class="stats-container">
+            <div class="stat-item">
+              <h3 id="totalQuizzes">0</h3>
+              <p>Total Quiz Dikerjakan</p>
             </div>
+            <div class="stat-item">
+              <h3 id="averageScore">0</h3>
+              <p>Rata-rata Nilai</p>
+            </div>
+            <div class="stat-item">
+              <h3 id="bestScore">0</h3>
+              <p>Nilai Terbaik</p>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="/js/data.js"></script>
     <script src="/js/script.js"></script>
     <script>
-        // Fungsi untuk pindah ke halaman kategori
-        function goToCategories() {
-            window.location.href = 'categories.html';
-        }
+      // Fungsi untuk pindah ke halaman kategori
+      function goToCategories() {
+        window.location.href = "categories.html";
+      }
 
-        // Update statistik saat halaman dimuat
-        window.addEventListener('DOMContentLoaded', function() {
-            updateStats();
-        });
+      // Update statistik saat halaman dimuat
+      window.addEventListener("DOMContentLoaded", function () {
+        updateStats();
+      });
     </script>
-</body>
+  </body>
 </html>
